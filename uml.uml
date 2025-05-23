@@ -1,0 +1,53 @@
+@startuml
+
+class DatabaseConfig {
+    -HOST: string
+    -DB_NAME: string
+    -USERNAME: string
+    -PASSWORD: string
+    +getConnection(): PDO
+}
+
+class User {
+    -id: int
+    -username: string
+    -password: string
+    -encryptionKey: string
+    -db: PDO
+    +__construct()
+    +register(username, password): bool
+    +login(username, password): bool
+    -generateEncryptionKey(password): string
+    +getEncryptionKey(): string
+    +getId(): int
+}
+
+class PasswordGenerator {
+    -length: int
+    -uppercase: int
+    -lowercase: int
+    -numbers: int
+    -special: int
+    +__construct(length, uppercase, lowercase, numbers, special)
+    +generate(): string
+    -getRandomChars(chars, length): string
+    +setParameters(length, uppercase, lowercase, numbers, special)
+}
+
+class PasswordManager {
+    -db: PDO
+    -userId: int
+    -encryptionKey: string
+    +__construct(userId, encryptionKey)
+    +savePassword(website, password): bool
+    +getPasswords(): array
+    -encryptPassword(password): string
+    -decryptPassword(encryptedPassword): string
+}
+
+User --> DatabaseConfig : uses
+PasswordManager --> DatabaseConfig : uses
+User --> PasswordManager : creates
+PasswordManager --> PasswordGenerator : uses
+
+@enduml 

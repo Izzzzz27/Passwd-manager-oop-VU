@@ -1,0 +1,19 @@
+# PHP specific
+/vendor/
+.env
+*.log
+sessions/
+*.cache
+
+# IDE specific
+.idea/
+.vscode/
+*.sublime-*
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp 
